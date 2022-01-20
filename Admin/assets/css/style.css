@@ -1,0 +1,23 @@
+#submit button {
+	position: absolute;
+	right: 0;
+	height: 45px;
+	top: 0;
+	width: 45px;
+	background: transparent;
+	border: none;
+	color: #3353ea;
+	border-radius: 0 3px 3px 0;
+	border-radius: 0;
+	border-left: 1px solid #eee;
+	font-size: 15px;
+	color: #333;
+	-webkit-transition: all 0.4s ease;
+	-moz-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+#submit button:hover{
+	color:#fff;
+	background:#F7941D;
+	border-color:transparent;
+}
