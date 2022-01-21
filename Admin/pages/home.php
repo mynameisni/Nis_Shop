@@ -1,18 +1,8 @@
 <?php
     error_reporting(0);
     session_start(); 
-    if(isset($_POST['i_search'])){
-        $_SESSION['content_search'] = $_POST['search']; 
-        header('location: search.php');
-    } 
-    try {
-        $conn = new PDO("mysql:host=localhost; dbname=nis_shop",'root','');
-        $conn-> query("set name utf8");
-        $conn-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        // echo "kết nối thành công";
-    } catch (PDOException $e) {
-        echo "Connection failed".$e->getMessage();
-    } 
+    $conn = new mysqli ('localhost','root','','nis_shop') or die("Connection failed!");
+    mysqli_query($conn, 'set names utf8');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,10 +93,10 @@
                                 <i class="fa fa-user me-sm-1"></i>
                                 <span class="d-sm-inline d-none"> 
                                     <?php
-                                        if(isset($_SESSION["name"])){
-                                            echo "<a href='http://localhost/NiShop/Nis-Shop/logout.php'> Log Out </a>";
+                                        if(isset($_SESSION["name_admin"])){
+                                            echo "<a href='http://localhost/NiShop/Nis_Shop/logout.php'> Log Out </a>";
                                         } else {
-                                            echo "<a href='http://localhost/NiShop/Nis-Shop/login.php'> Log In </a>";
+                                            echo "<a href='http://localhost/NiShop/Nis_Shop/login.php'> Log In </a>";
                                         }
                                     ?>  
                                 </span>
@@ -136,8 +126,16 @@
                                 <i class="material-icons opacity-10">account_balance_wallet</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"> Today's Money </p>
-                                <h4 class="mb-0">$53k</h4>
+                                <p class="text-sm mb-0 text-capitalize"> Money </p>
+                                <h4 class="mb-0"> $
+                                  <!--   <?php 
+                                        $result1 = 0;
+                                        $sqlSum = "SELECT sum(total_money) FROM `orders`";
+                                        $result1 = mysqli_query($conn,$sqlSum) or die("Error");
+                                        // echo $result;
+                                        print_r($result1);
+                                    ?>   -->
+                                </h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
@@ -153,8 +151,15 @@
                                 <i class="material-icons opacity-10"> person </i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"> Today's Users</p>
-                                <h4 class="mb-0">2,300</h4>
+                                <p class="text-sm mb-0 text-capitalize"> Users </p>
+                                <h4 class="mb-0">
+                                    <?php 
+                                        $sqlCount2 = "SELECT  COUNT(id_user) as sum FROM `user`";
+                                        $result2 = mysqli_query($conn,$sqlCount2);
+                                        $r = mysqli_fetch_assoc($result2);
+                                        echo $r['sum'];
+                                    ?>   
+                                </h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
@@ -170,8 +175,40 @@
                                 <i class="material-icons opacity-10">person</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize"> Today's Clients</p>
-                                <h4 class="mb-0">3,462</h4>
+                                <p class="text-sm mb-0 text-capitalize"> Clients</p>
+                                <h4 class="mb-0">
+                                    <?php 
+                                        $sqlCount = "SELECT count(id_order) FROM `orders`";
+                                        $result3 = mysqli_query($conn,$sqlCount) or die("Error");
+                                        $r = mysqli_fetch_assoc($result3);
+                                        echo $r['sum'];
+                                    ?> 
+                                </h4>
+                            </div>
+                        </div>
+                        <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10"> person </i>
+                            </div>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize"> Orders </p>
+                                <h4 class="mb-0">
+                                  <!--   <?php 
+                                        $result4 = 0;
+                                        $sqlCount = "SELECT count(id_order) FROM `orders`";
+                                        $result4 = mysqli_query($conn,$sqlCount) or die("Error");
+                                        // echo $result;
+                                        print_r($result4);
+                                    ?> -->
+                                </h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">

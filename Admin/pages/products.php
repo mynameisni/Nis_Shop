@@ -79,14 +79,6 @@
                         <span class="nav-link-text ms-1"> Orders </span>
                     </a>
                 </li>
-<!--                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/notifications.php">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10"> notifications </i>
-                        </div>
-                        <span class="nav-link-text ms-1"> Notifications </span>
-                    </a>
-                </li> -->
             </ul>
         </div>
     </aside>
@@ -105,10 +97,10 @@
                             <i class="fa fa-user me-sm-1"></i>
                             <span class="d-sm-inline d-none"> 
                                 <?php
-                                    if(isset($_SESSION["name"])){
-                                        echo "<a href='http://localhost/NiShop/Nis-Shop/logout.php'> Log Out </a>";
+                                    if(isset($_SESSION["name_admin"])){
+                                        echo "<a href='http://localhost/NiShop/Nis_Shop/logout.php'> Log Out </a>";
                                     } else {
-                                        echo "<a href='http://localhost/NiShop/Nis-Shop/login.php'> Log In </a>";
+                                        echo "<a href='http://localhost/NiShop/Nis_Shop/login.php'> Log In </a>";
                                     }
                                 ?>  
                             </span>
@@ -142,8 +134,10 @@
                         <div class="table-responsive p-0">
                             <form action="" method="post">
                             <?php
-                                if (isset($_POST['save'])) {
-                                    $id = $_POST['id'];
+                                if($_POST['edit']){
+                                    $id = $_GET['id_product'];
+                                }
+                                if ($_POST['save']) {
                                     $name = $_POST['name'];
                                     if ($_POST['category'] == "Mac") {
                                         $category = "1";
@@ -159,43 +153,26 @@
                                     $image = $_POST['image'];
                                     $price = $_POST['price'];
                                     $description = $_POST['description'];
-                                    $dateadd = $_POST['dateadd'];
+                                    $fmg = $_POST['fmg'];
                                     $quantity = $_POST['quantity'];
 
-                                    $sql = "SELECT * FROM `products`";
-                                    $dl=$conn-> query($sql); 
-                                    foreach ($dl as $value) {
-                                        if ($value[0] == $id) {
-                                            $sqlUpdate = "UPDATE `products` SET `product_name`='$name',`id_category`=$category,`image`='$image',`price`='$price',`description`='$description',`date_add`='$dateadd',`quantity`='$quantity'";
+                                    if (isset($_GET['id_product'])) {
+                                        $sqlUpdate = "UPDATE `products` SET `product_name`='$name',`id_category`='$category',`image`='$image',`price`='$price',`description`='$description',`date_add`='$dateadd',`quantity`='$quantity' WHERE `id_product`=".$_GET['id_product'];
                                             mysql_query($conn, $sqlUpdate) or die("Error");
-                                        } else {
-                                            $sqlInsert = "INSERT INTO `products`(`product_name`, `id_category`, `image`, `price`, `description`, `date_add`, `quantity`) VALUES ($name,$category,$image,$price,$description,$dateadd,$quantity)";
-                                            mysql_query($conn, $sqlInsert) or die("Error");
-                                        }
+                                    } else {
+                                        $sqlInsert = "INSERT INTO `products`(`product_name`, `id_category`, `image`, `price`, `description`, `date_add`, `quantity`) VALUES ('$name','$category','$image','$price','$description','$dateadd','$quantity')";
+                                        mysql_query($conn, $sqlInsert) or die("Error");
                                     }
-                                    if (isset($_POST['edit'])) {
-                                            $id = $_GET['id'];   
-                                        }
-                                        if (isset($_POST['save'])) {
-                                            $name = $_POST['name'];
-                                            if (isset($_GET['id'])) {
-                                                $sqlUpdate = "UPDATE `category` SET `type_name`='$name' WHERE `id_category`=".$_GET['id'];
-                                                mysqli_query($conn,$sqlUpdate) or die("Error");
-                                            } else {
-                                                $sqlInsert = "INSERT INTO `category`(`type_name`) VALUES ('$name')";
-                                                mysqli_query($conn,$sqlInsert) or die("Error");
-                                            }
+                                }
 
-                                        }
-                                        if (isset($_POST['delete'])) {
-                                            $id = $_GET['id'];
-                                        }
-                                    }
+                                if($_POST['delete']){
+                                    $id = $_GET['id_product'];
+                                }
                             ?>
                                 <div class="form-group" >
                                     <h6 class="mb-0 text-sm"> ID </h6>
                                     <div class="col-md-9 col-sm-9 ">
-                                        <input type="text" class="mb-0" style="padding: 3px; width: 340px;" name="id">
+                                        <input type="text" class="mb-0" style="padding: 3px; width: 340px;" name="id" value='<?php echo $_GET['id_product']; ?>'>
                                     </div>
                                 </div>
                                 <div class="form-group" style="padding-top: 10px;">
@@ -235,9 +212,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group" style="padding-top: 10px;">
-                                    <h6 class="mb-0 text-sm"> Date add </h6>
+                                    <h6 class="mb-0 text-sm"> FMG </h6>
                                     <div class="col-md-9 col-sm-9 ">
-                                        <input class="date-picker mb-0" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)" style="padding: 3px; width: 340px;" name="dateadd">
+                                        <input class="date-picker mb-0" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)" style="padding: 3px; width: 340px;" name="fmg">
                                     </div>
                                 </div>
                                 <div class="form-group" style="padding-top: 10px;">
@@ -273,7 +250,7 @@
                                         <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Product </th>
                                         <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Category </th>
                                         <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Price </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Date add </th>
+                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> FMG </th>
                                         <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Quantity </th>
                                         <th class="text-secondary opacity-7"></th>
                                         <th class="text-secondary opacity-7"></th>
@@ -300,18 +277,18 @@
                                             <p class="mb-0"> $<?php echo $r['price']; ?> </p>
                                         </td>
                                         <td>
-                                            <p class="mb-0"> <?php echo date("d-m-Y",strtotime($r['date_add'])); ?> </p>
+                                            <p class="mb-0"> <?php echo date("d-m-Y",strtotime($r['mfg'])); ?> </p>
                                         </td>
                                         <td align="center">
                                             <p class="mb-0 "> <?php echo $r['quantity']; ?> </p>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="products.php?id=<?php echo $r['id_category']; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip">
+                                            <a href="products.php?id_product=<?php echo $r['id_product']; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip">
                                               <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit">edit</i>
                                             </a>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="delete.php?id=<?php echo $r['id_category']; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip">
+                                            <a href="delete_product.php?id_product=<?php echo $r['id_product']; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip">
                                               <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete">delete</i>
                                             </a>
                                         </td>

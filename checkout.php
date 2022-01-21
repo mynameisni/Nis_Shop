@@ -8,14 +8,8 @@
         $_SESSION['content_search'] = $_POST['search']; 
         header('location: search.php');
     } 
-    try {
-        $conn = new PDO("mysql:host=localhost; dbname=nis_shop",'root','');
-        $conn-> query("set name utf8");
-        $conn-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        // echo "kết nối thành công";
-    } catch (PDOException $e) {
-        echo "Connection failed".$e->getMessage();
-    } 
+    $conn = new mysqli ('localhost','root','','nis_shop') or die("Connection failed!");
+    mysqli_query($conn, 'set names utf8');
 ?>
 <!DOCTYPE html>
 <html lang="zxx">

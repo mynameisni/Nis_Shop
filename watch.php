@@ -260,28 +260,23 @@
 									<div class="tab-single">
 										<div class="row">
 											<?php
-									            try {
-									                $conn = new PDO("mysql:host=localhost; dbname=nis_shop",'root','');
-									                $conn-> query("set name utf8");
-									                $conn-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-									                // echo "kết nối thành công";
-									            } catch (PDOException $e) {
-									                echo "kết nối thất bại".$e->getMessage();
-									            } 
-									            $sql="select * from `products` where id_category = '4' order by date_add desc "; 
-									            $dl=$conn-> query($sql); 
-									            foreach ($dl as $value) {
+									            $conn = new mysqli ('localhost','root','','nis_shop') or die("Connection failed!");
+    											mysqli_query($conn, 'set names utf8');
+									            $sqlSelect = "SELECT * FROM `products` WHERE id_category = '4' order by mfg desc "; 
+									            $result = mysqli_query($conn,$sqlSelect) ;
+		                                        if (mysqli_num_rows($result) > 0) {
+		                                            while ($r = mysqli_fetch_assoc($result)) {
 									        ?>
 											<div class="col-xl-3 col-lg-4 col-md-4 col-12">
 
 												<div class="single-product">
 													<div class="product-img">
 														<a data-toggle="modal" data-target="#exampleModal" >
-															<img class="default-img" src="images/<?php echo $value[3]?>.png" alt="#">
+															<img class="default-img" src="images/<?php echo $r["image"]?>.png" alt="#">
 														</a>
 														<div class="button-head">
 															<div class="product-action">
-																<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span> View </span></a>
+																<a data-toggle="modal" data-target="#exampleModal" title="Product View View"><i class=" ti-eye"></i><span> View </span></a>
 																<a title="Wishlist" href="#"><i class=" ti-heart "></i><span> Add to Wishlist </span></a>
 															</div>
 															<div class="product-action-2">
@@ -291,9 +286,9 @@
 													</div>
 
 													<div class="product-content">
-														<h3><a data-toggle="modal" data-target="#exampleModal"> <?php echo $value[1]; ?> </a></h3>
+														<h3><a data-toggle="modal" data-target="#exampleModal"> <?php echo $r['product_name']; ?> </a></h3>
 														<div class="product-price">
-															<span>$<?php echo $value[4]?></span>
+															<span>$<?php echo $r['price']?></span>
 														</div>
 													</div>
 												</div>

@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <title>
-        Table
+        Category
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -80,14 +80,6 @@
                         <span class="nav-link-text ms-1"> Orders </span>
                     </a>
                 </li>
-<!--                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/notifications.php">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10"> notifications </i>
-                        </div>
-                        <span class="nav-link-text ms-1"> Notifications </span>
-                    </a>
-                </li> -->
             </ul>
         </div>
     </aside>
@@ -106,10 +98,10 @@
                             <i class="fa fa-user me-sm-1"></i>
                             <span class="d-sm-inline d-none"> 
                                 <?php
-                                    if(isset($_SESSION["name"])){
-                                        echo "<a href='http://localhost/NiShop/Nis-Shop/logout.php'> Log Out </a>";
+                                    if(isset($_SESSION["name_admin"])){
+                                        echo "<a href='http://localhost/NiShop/Nis_Shop/logout.php'> Log Out </a>";
                                     } else {
-                                        echo "<a href='http://localhost/NiShop/Nis-Shop/login.php'> Log In </a>";
+                                        echo "<a href='http://localhost/NiShop/Nis_Shop/login.php'> Log In </a>";
                                     }
                                 ?>  
                             </span>
@@ -224,7 +216,7 @@
                                             </a>
                                         </td>
                                         <td class="align-middle">
-                                            <a class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" href="delete.php?id=<?php echo $r['id_category']; ?>">
+                                            <a class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" href="delete_category.php?id=<?php echo $r['id_category']; ?>">
                                                 <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete" name="delete">delete</i>
                                             </a>
                                         </td>

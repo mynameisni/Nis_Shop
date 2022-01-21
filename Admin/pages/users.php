@@ -1,18 +1,9 @@
 <?php
     error_reporting(0);
     session_start(); 
-    if(isset($_POST['i_search'])){
-        $_SESSION['content_search'] = $_POST['search']; 
-        header('location: search.php');
-    } 
-    try {
-        $conn = new PDO("mysql:host=localhost; dbname=nis_shop",'root','');
-        $conn-> query("set name utf8");
-        $conn-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        // echo "kết nối thành công";
-    } catch (PDOException $e) {
-        echo "Connection failed".$e->getMessage();
-    } 
+    session_start(); 
+    $conn = new mysqli ('localhost','root','','nis_shop') or die("Connection failed!");
+    mysqli_query($conn, 'set names utf8');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,14 +80,6 @@
                         <span class="nav-link-text ms-1"> Orders </span>
                     </a>
                 </li>
-<!--                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/notifications.php">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10"> notifications </i>
-                        </div>
-                        <span class="nav-link-text ms-1"> Notifications </span>
-                    </a>
-                </li> -->
             </ul>
         </div>
     </aside>
@@ -115,7 +98,7 @@
                             <i class="fa fa-user me-sm-1"></i>
                             <span class="d-sm-inline d-none"> 
                                 <?php
-                                    if(isset($_SESSION["name"])){
+                                    if(isset($_SESSION["name_admin"])){
                                         echo "<a href='http://localhost/NiShop/Nis-Shop/logout.php'> Log Out </a>";
                                     } else {
                                         echo "<a href='http://localhost/NiShop/Nis-Shop/login.php'> Log In </a>";
@@ -164,29 +147,32 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        $sql="SELECT * FROM `user`"; 
-                                        $dl=$conn-> query($sql); 
-                                        foreach ($dl as $value) {
+                                        $sqlSelect = "SELECT * FROM `user`";
+                                        $result = mysqli_query($conn,$sqlSelect) ;
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($r = mysqli_fetch_assoc($result)) {
                                     ?>
                                     <tr>
                                         <td>
-                                            <p class="mb-0"> <?php echo $value[0]; ?> </p>
+                                            <p class="mb-0"> <?php echo $r['id_user']; ?> </p>
                                         </td>
                                         <td>
-                                            <h6 class="mb-0 text-sm"> <?php echo $value[1]; ?> </h6>
+                                            <h6 class="mb-0 text-sm"> <?php echo $r['email']; ?> </h6>
                                         </td>
                                         <td>
-                                            <p class="mb-0"> <?php echo $value[2]; ?> </p>
+                                            <p class="mb-0"> <?php echo $r['name']; ?> </p>
                                         </td>
                                         <td>
-                                            <p class="mb-0"> $<?php echo $value[3]; ?> </p>
+                                            <p class="mb-0"> <?php echo $r['password']; ?> </p>
                                         </td>
                                         <td class="align-middle">
-                                            <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete">delete</i>
+                                            <a class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" href="delele_user.php?id_user=<?php echo $r['id_user']; ?>"> 
+                                                <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete">delete</i>
+                                            </a>
                                         </td>
                                         <th class="text-secondary opacity-7"></th>
                                     </tr>
-                                    <?php } ?>
+                                    <?php } } ?>
                                 </tbody>
                             </table>
                             </form>

@@ -1,18 +1,8 @@
 <?php
     error_reporting(0);
     session_start(); 
-    if(isset($_POST['i_search'])){
-        $_SESSION['content_search'] = $_POST['search']; 
-        header('location: search.php');
-    } 
-    try {
-        $conn = new PDO("mysql:host=localhost; dbname=nis_shop",'root','');
-        $conn-> query("set name utf8");
-        $conn-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        // echo "kết nối thành công";
-    } catch (PDOException $e) {
-        echo "Connection failed".$e->getMessage();
-    } 
+    $conn = new mysqli ('localhost','root','','nis_shop') or die("Connection failed!");
+    mysqli_query($conn, 'set names utf8');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,21 +72,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white  active bg-gradient-primary" href="../pages/orders.php">
+                    <a class="nav-link text-white active bg-gradient-primary" href="../pages/orders.php">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10"> shopping_cart </i>
                         </div>
                         <span class="nav-link-text ms-1"> Orders </span>
                     </a>
                 </li>
-<!--                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/notifications.php">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10"> notifications </i>
-                        </div>
-                        <span class="nav-link-text ms-1"> Notifications </span>
-                    </a>
-                </li> -->
             </ul>
         </div>
     </aside>
@@ -115,7 +97,7 @@
                             <i class="fa fa-user me-sm-1"></i>
                             <span class="d-sm-inline d-none"> 
                                 <?php
-                                    if(isset($_SESSION["name"])){
+                                    if(isset($_SESSION["name_admin"])){
                                         echo "<a href='http://localhost/NiShop/Nis-Shop/logout.php'> Log Out </a>";
                                     } else {
                                         echo "<a href='http://localhost/NiShop/Nis-Shop/login.php'> Log In </a>";
@@ -141,110 +123,68 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-4"> Add Products</h6>
+                            <h6 class="text-white text-capitalize ps-4"> Orders Manager </h6>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive p-0">
+
                             <form action="" method="post">
-                            <?php
-                                if (isset($_POST['save'])) {
-                                    $id = $_POST['id'];
-                                    $name = $_POST['name'];
-                                    if ($_POST['category'] == "Mac") {
-                                        $category = "1";
-                                    } else if($_POST['category'] == "iPad"){
-                                        $category = "2";
-                                    } else if($_POST['category'] == "iPhone"){
-                                        $category = "3";
-                                    } else if($_POST['category'] == "Watch"){
-                                        $category = "4";
-                                    } else {
-                                        $category = "5";
-                                    }
-                                    $image = $_POST['image'];
-                                    $price = $_POST['price'];
-                                    $description = $_POST['description'];
-                                    $dateadd = $_POST['dateadd'];
-                                    $quantity = $_POST['quantity'];
-
-                                    $sql = "SELECT * FROM `products`";
-                                    $dl=$conn-> query($sql); 
-                                    foreach ($dl as $value) {
-                                        if ($value[0] == $id) {
-                                            $sqlUpdate = "UPDATE `products` SET `product_name`='$name',`id_category`=$category,`image`='$image',`price`='$price',`description`='$description',`date_add`='$dateadd',`quantity`='$quantity'";
-                                            mysql_query($conn, $sqlUpdate) or die("Error");
-                                        } else {
-                                            $sqlInsert = "INSERT INTO `products`(`product_name`, `id_category`, `image`, `price`, `description`, `date_add`, `quantity`) VALUES ($name,$category,$image,$price,$description,$dateadd,$quantity)";
-                                            mysql_query($conn, $sqlInsert) or die("Error");
-                                        }
-                                    }
-
-                                }
-                            ?>
-                                <div class="form-group" >
-                                    <h6 class="mb-0 text-sm"> ID </h6>
-                                    <div class="col-md-9 col-sm-9 ">
-                                        <input type="text" class="mb-0" style="padding: 3px; width: 340px;" name="id">
-                                    </div>
-                                </div>
-                                <div class="form-group" style="padding-top: 10px;">
-                                    <h6 class="mb-0 text-sm"> Name </h6>
-                                    <div class="col-md-9 col-sm-9 ">
-                                        <input type="text" class="mb-0" style="padding: 3px; width: 340px;" name="name">
-                                    </div>
-                                </div>
-                                <div class="form-group" style="padding-top: 10px;">
-                                    <h6 class="mb-0 text-sm"> Category </h6>
-                                    <div class="col-md-9 col-sm-9 ">
-                                        <select id="heard" class="mb-0" style="padding: 3px;" name="category">
-                                            <option value="net"> Mac </option>
-                                            <option value=""> iPad </option>
-                                            <option value="press"> iPhone</option>
-                                            <option value="net"> Watch </option>
-                                            <option value="mouth"> AirPods </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group" style="padding-top: 10px;">
-                                    <h6 class="mb-0 text-sm"> Image </h6>
-                                    <div class="col-md-9 col-sm-9 ">
-                                        <input type="text" class="mb-0" style="padding: 3px; width: 340px;" name="image">
-                                    </div>
-                                </div>
-                                <div class="form-group" style="padding-top: 10px;">
-                                    <h6 class="mb-0 text-sm"> Price </h6>
-                                    <div class="col-md-9 col-sm-9">
-                                        <input type="text" class="mb-0" style="padding: 3px; width: 340px;" name="price">
-                                    </div>
-                                </div>
-                                <div class="form-group" style="padding-top: 10px;">
-                                    <h6 class="mb-0 text-sm"> Description </h6>
-                                    <div class="col-md-9 col-sm-9 ">
-                                        <textarea type="text" class="mb-0" style="padding: 3px; width: 340px;" name="description"> </textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group" style="padding-top: 10px;">
-                                    <h6 class="mb-0 text-sm"> Date add </h6>
-                                    <div class="col-md-9 col-sm-9 ">
-                                        <input class="date-picker mb-0" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)" style="padding: 3px; width: 340px;" name="dateadd">
-                                    </div>
-                                </div>
-                                <div class="form-group" style="padding-top: 10px;">
-                                    <h6 class="mb-0 text-sm"> Quantity </h6>
-                                    <div class="col-md-9 col-sm-9">
-                                        <input type="text" class="mb-0" style="padding: 3px; width: 340px;" name="quantity">
-                                    </div>
-                                </div>
-                                <div class="form-group" style="margin-top: 30px;" align="center">
-                                    <div class="col-md-5 col-sm-3">
-                                        <input type="submit" class="btn btn-success" name="save" value="Save">
-                                    </div>
-                                </div>
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> ID </th>
+                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Name Client </th>
+                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Address </th>
+                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Email </th>
+                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Phone </th>
+                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Total Money </th>
+                                        <th class="text-secondary opacity-7"> </th>
+                                        <th class="text-secondary opacity-7"> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        $sqlSelect = "SELECT * FROM `orders`";
+                                        $result = mysqli_query($conn,$sqlSelect) ;
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($r = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                    <tr >
+                                        <td> 
+                                            <p class="mb-0"> <?php echo $r['id']; ?> </p>
+                                        </td>
+                                        <td> 
+                                            <h6 class="mb-0 text-sm"> <?php echo $r['name_client']; ?> </h6>
+                                        </td>
+                                        <td align="center">
+                                            <p class="mb-0"> <?php echo $r['address']; ?> </p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0"> $<?php echo $r['email']; ?> </p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0"> $<?php echo $r['phone']; ?> </p>
+                                        </td>
+                                        <td align="center">
+                                            <p class="mb-0 "> <?php echo $r['total_money']; ?> </p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="orders.php?id=<?php echo $r['id_order']; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-bs-original-title="Detail"> Detail </a>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="delete_order.php?id=<?php echo $r['id_order']; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip">
+                                              <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete">delete</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <?php } }?>
+                                </tbody>
+                            </table>
                             </form>
                         </div>
                     </div>
@@ -254,7 +194,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-4"> Products Manager </h6>
+                            <h6 class="text-white text-capitalize ps-4"> Order Detail </h6>
                         </div>
                     </div>
                     <div class="card-body">
@@ -265,106 +205,32 @@
                                     <tr>
                                         <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> ID </th>
                                         <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Product </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Category </th>
                                         <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Price </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Date add </th>
                                         <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Quantity </th>
-                                        <th class="text-secondary opacity-7"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                        $sql="SELECT * FROM `products` JOIN `category` ON products.id_category = category.id_category ORDER BY date_add ASC"; 
-                                        $dl=$conn-> query($sql); 
-                                        foreach ($dl as $value) {
+                                        $sqlSelect = "SELECT * FROM `order_detail` JOIN `orders` ON order_detail.id_order = orders.id_order GROUP BY id_order WHERE id_order =".$_GET['id_order'] ;
+                                        $result = mysqli_query($conn,$sqlSelect) ;
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($r = mysqli_fetch_assoc($result)) {
                                     ?>
                                     <tr >
                                         <td> 
-                                            <p class="mb-0"> <?php echo $value[0]; ?> </p>
+                                            <p class="mb-0"> <?php echo $r['id_product']; ?> </p>
                                         </td>
                                         <td> 
-                                            <h6 class="mb-0 text-sm"> <?php echo $value[1]; ?> </h6>
-                                        </td>
-                                        <td align="center">
-                                            <p class="mb-0"> <?php echo $value[8]; ?> </p>
-                                        </td>
-                                        <td>
-                                            <p class="mb-0"> $<?php echo $value[4]; ?> </p>
-                                        </td>
-                                        <td>
-                                            <p class="mb-0"> <?php echo date("d-m-Y",strtotime($value[6])); ?> </p>
-                                        </td>
-                                        <td align="center">
-                                            <p class="mb-0 "> <?php echo $value[7]; ?> </p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip">
-                                              <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete">delete</i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-4"> Products Manager </h6>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive p-0">
-                            <form action="" method="post">
-                            <table class="table align-items-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> ID </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Product </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Category </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Price </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Date add </th>
-                                        <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 ps-2"> Quantity </th>
-                                        <th class="text-secondary opacity-7"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        $sql="SELECT * FROM `products` JOIN `category` ON products.id_category = category.id_category ORDER BY date_add ASC"; 
-                                        $dl=$conn-> query($sql); 
-                                        foreach ($dl as $value) {
-                                    ?>
-                                    <tr >
-                                        <td> 
-                                            <p class="mb-0"> <?php echo $value[0]; ?> </p>
+                                            <p class="mb-0"> <?php echo $r['name_product']; ?> </p>
                                         </td>
                                         <td> 
-                                            <h6 class="mb-0 text-sm"> <?php echo $value[1]; ?> </h6>
+                                            <h6 class="mb-0 text-sm"> <?php echo $r['price']; ?> </h6>
                                         </td>
-                                        <td align="center">
-                                            <p class="mb-0"> <?php echo $value[8]; ?> </p>
-                                        </td>
-                                        <td>
-                                            <p class="mb-0"> $<?php echo $value[4]; ?> </p>
-                                        </td>
-                                        <td>
-                                            <p class="mb-0"> <?php echo date("d-m-Y",strtotime($value[6])); ?> </p>
-                                        </td>
-                                        <td align="center">
-                                            <p class="mb-0 "> <?php echo $value[7]; ?> </p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip">
-                                              <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete">delete</i>
-                                            </a>
+                                        <td> 
+                                            <h6 class="mb-0 text-sm"> <?php echo $r['price']; ?> </h6>
                                         </td>
                                     </tr>
-                                    <?php } ?>
+                                    <?php } }?>
                                 </tbody>
                             </table>
                             </form>
