@@ -18,7 +18,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title> Home </title> 
+    <title> Cart </title> 
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	
@@ -127,9 +127,6 @@
 					<div class="col-lg-2 col-md-3 col-12">
 						<div class="right-bar">
 							<!-- Search Form -->
-							<div class="sinlge-bar">
-								<a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-							</div>
 							<div class="sinlge-bar">
 								<a href="myAccount.php" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 
@@ -289,7 +286,7 @@
 										<input type="number" value="<?php echo $vl['number'] ?>" id="num_<?php echo $key; ?>" onclick="updateCart(<?php echo $key; ?>)" style="width: 4em; border: 1px solid gray; text-align: center;">
 									</td>
 									<td class="total text-center">
-										<strong class="primary-color"> $ 
+										<strong class="primary-color" id="to_tal"> $ 
 											<?php 
 												$total = (int)$vl["number"]*(int)$vl["price"];
 												$subtotal +=$total; 
@@ -493,14 +490,14 @@
 	<script src="js/active.js"></script>
 <!-- 	<script type="js/cart.js"></script> -->
 	<script>
-		function updateCart(id_product){
+		function addCart(id_product){
 			$.post("shoppingcart.php",{'id_product':id_product}, function(data, status){
-				// alert(data);
 			    item = data.split("-");
 			    $("#qty").text(item[0]);
 			    $("#total").text(item[1]);
 			});
-
+		}
+		function updateCart(id_product){
 			num = $("#num_"+id_product).val();
 			$.post("updateCart.php",{'id_product':id_product, 'num':num}, function(data){
 				$("#listCart").load('http://localhost/NiShop/Nis-Shop/cart.php #listCart');
@@ -510,7 +507,6 @@
 			$.post("updateCart.php",{'id_product':id_product, 'num':0}, function(data){
 				$("#listCart").load('http://localhost/NiShop/Nis-Shop/cart.php #listCart');
 			});
-			// alert(id_product);
 		}
 	</script>
 </body>

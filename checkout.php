@@ -4,10 +4,6 @@
     if(!isset($_SESSION["name"])){
 		header("location:login.php");
 	}
-    if(isset($_POST['i_search'])){
-        $_SESSION['content_search'] = $_POST['search']; 
-        header('location: search.php');
-    } 
     $conn = new mysqli ('localhost','root','','nis_shop') or die("Connection failed!");
     mysqli_query($conn, 'set names utf8');
 ?>
@@ -22,7 +18,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title> Home </title> 
+    <title> Checkout </title> 
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	
@@ -131,9 +127,6 @@
 					<div class="col-lg-2 col-md-3 col-12">
 						<div class="right-bar">
 							<!-- Search Form -->
-							<div class="sinlge-bar">
-								<a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-							</div>
 							<div class="sinlge-bar">
 								<a href="myAccount.php" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 
@@ -258,30 +251,27 @@
 								<div class="title">
 									<h3> BILLING DETAILS </h3>
 								</div>
-								<form class="form" id="form" method="post">
-									<?php
-										if(isset($_POST['email']) && isset($_POST['name']) && isset($_POST['phone']) && isset($_POST['address'])) {
+								<?php
+									if (isset($_POST['order'])) {
+										if (!empty($_POST['email']) && !empty($_POST['name']) && !empty($_POST['phone']) && !empty($_POST['address'])) {
 											$email = $_POST['email'];
 									        $address = $_POST['address'];
 									        $name = $_POST['name'];
 									        $phone = $_POST['phone'];
-											if (isset($_POST['order'])) {
-												if ($_POST['name'] != "" && $_POST['address'] != "" && $_POST['email'] != "" && $_POST['phone'] != "") {
-													$sqlInsertOrder = "INSERT INTO `orders` (`name`, `address`, `email`, `phone`, `orderdetail_ID`) VALUES ('$name','$address', '$email', '$phone')";
-	                    							mysql_query($conn, $sqlInsertOrder);
-	                    							$id = mysql_insert_id($conn);
-	                    							
-	                    							foreach ($_SESSION['cart'] as $key => $value) {
-	                    								$quantity = $value['number'];
-	                    								$price = $value['price'];
+									        $sqlInsertOrder = "INSERT INTO `orders`(`name_client`, `address`, `email`, `phone`) VALUES ('$name','$address', '$email', '$phone')";
+                    						mysqli_query($conn, $sqlInsertOrder) or die("Error");
+                    						$id = mysqli_insert_id($conn);
+                    						foreach ($_SESSION['cart'] as $key => $value) {
+                								$quantity = $value['number'];
+                								$price = $value['price'];
 
-	                    								$sqlInsertOrderDetail = "INSERT INTO `order_detail` (`id_product`, `quantity`, `price`, `id_order`) VALUES ('$key','$quantity','$price','$id')";
-	                    								mysql_query($conn, $sqlInsertOrderDetail);
-	                    							}
-												} echo "Ban can nhap du thong tin";
-											}
+                								$sqlInsertOrderDetail = "INSERT INTO `order_detail`(`id_product`, `quantity`, `price`, `id_order`) VALUES ('$key','$quantity','$price','$id')";
+                								mysqli_query($conn, $sqlInsertOrderDetail) or die("Error");
+                							}
 										}
-									?>
+									}
+								?>
+								<form class="form" method="post">
 									<div class="row">
 										<div class="col-lg-6 col-12">
 											<div class="form-group">
@@ -309,7 +299,7 @@
 										</div>
 										<div class="col-12" style="margin-top:15px">
 											<div class="form-group button">
-												<button type="submit" class ="btn" onclick="order()"> Place Order </button>
+												<button type="submit" class ="btn" name="order"> Place Order </button>
 											</div>
 										</div>
 									</div>

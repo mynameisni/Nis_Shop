@@ -125,9 +125,6 @@
 						<div class="right-bar">
 							<!-- Search Form -->
 							<div class="sinlge-bar">
-								<a href="#" class="single-icon"><i class="fa fa-heart-o"></i></a>
-							</div>
-							<div class="sinlge-bar">
 								<a href="myAccount.php" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
 							<div class="sinlge-bar shopping">
@@ -136,36 +133,39 @@
 									$total = 0;
 									if (isset($_SESSION["cart"])) {
 										$cart = $_SESSION["cart"];
-										foreach ($cart as $vl) {
-							                $number += (int)$vl["number"];
-							                $total += (int)$vl["number"]*(int)$vl["price"];
+										foreach ($cart as $value) {
+							                $number += (int)$value["number"];
+							                $total += (int)$value["number"]*(int)$value["price"];
 							            }
+							            
 									}
 								?>
-								<a href="cart.php" class="single-icon"><i class="ti-bag"></i><span class="total-count" id="qty"> <?php echo $number ?> </span></a>
+								<a href="cart.php" class="single-icon"><i class="ti-bag"></i><span class="total-count" id="qty"> <?php echo $number; ?> </span></a>
 								<!-- Shopping Item -->
 								<div class="shopping-item">
 									<div class="dropdown-cart-header">
-										<span> <?php echo $number ?> Items </span>
+										<span> <?php echo $number; ?> Items </span>
 										<a href="cart.php"> View Cart </a>
 									</div>
 									<?php 
 										if (isset($_SESSION["cart"])) {
 											$cart = $_SESSION["cart"];
-											foreach ($cart as $vl) { ?>
+											foreach ($cart as $value) { 
+												
+									?>
 									<ul class="shopping-list">
 										<li>
-											<a class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-											<a class="cart-img"><img width=5% height=8% src="images/<?php echo $vl['image'] ?>.png" alt="#"></a>
-											<h4><a> <?php echo $vl['name'] ?> </a></h4>
-											<p class="quantity"><span class="amount"> $<?php echo $vl['price'] ?> </span></p>
+											<!-- <a class="remove" title="Remove this item"><i class="fa fa-remove"></i></a> -->
+											<a class="cart-img"><img width=5% height=8% src="images/<?php echo $value['image']; ?>.png"></a>
+											<h4><a> <?php echo $value['name']; ?> </a></h4>
+											<p class="quantity"><span class="amount"> $<?php echo $value['price']; ?> </span></p>
 										</li>
 									</ul>
 									<?php } } ?>
 									<div class="bottom">
 										<div class="total">
 											<span> Total </span>
-											<span class="total-amount" id="total"> $<?php echo $total ?> </span>
+											<span class="total-amount" id="total"> $<?php echo $total; ?> </span>
 										</div>
 									</div>
 								</div>
@@ -314,7 +314,6 @@
 														<div class="button-head">
 															<div class="product-action">
 																<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href=""><i class=" ti-eye"></i><span> View </span></a>
-																<a title="Wishlist" href="#"><i class=" ti-heart "></i><span> Add to Wishlist </span></a>
 															</div>
 															<div class="product-action-2" onclick="addCart('<?php echo $r["id_product"];?>')">
 																<a title="Add to cart" href=""> Add to cart </a>
@@ -331,7 +330,7 @@
 												</div>
 											</div>
 											<?php 
-									            } } ;
+									            } }
 									        ?>
 										</div>
 									</div>
@@ -378,8 +377,7 @@
 														</a>
 														<div class="button-head">
 															<div class="product-action">
-																<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href=""><i class=" ti-eye"></i><span> Quick Shop </span></a>
-																<a title="Wishlist" href="#"><i class="ti-heart"></i><span> Add to Wishlist </span></a>
+																<a data-toggle="modal" data-target="#exampleModal" title="Quick View" ><i class=" ti-eye"></i><span> Quick Shop </span></a>
 															</div>
 															<div class="product-action-2" onclick="addCart('<?php echo $r["id_product"];?>')">
 																<a title="Add to cart" href="" > Add to cart </a>
@@ -387,7 +385,7 @@
 														</div>
 													</div>
 													<div class="product-content">
-														<h3><a href="product-details.html"> <?php echo $r['product_name']; ?> </a></h3>
+														<h3><a data-toggle="modal" data-target="#exampleModal"> <?php echo $r['product_name']; ?> </a></h3>
 														<div class="product-price">
 															<span>$<?php echo $r['price']?></span>
 														</div>
@@ -395,7 +393,7 @@
 												</div>
 											</div>
 											<?php 
-									           	} } ;
+									           	} } 
 									        ?>
 										</div>
 									</div>

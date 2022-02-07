@@ -5,27 +5,32 @@
     $conn = new mysqli ('localhost','root','','nis_shop') or die("Connection failed!");
     mysqli_query($conn, 'set names utf8');
     if(isset($_POST['login'])) {
-        $email=$_POST['email'];
-        $pass=md5($_POST['password']);
-        $sqlLogin = "SELECT * FROM `user`"; 
-        $result = mysqli_query($conn,$sqlLogin); 
-        if (mysqli_num_rows($result) > 0) {
-            while ($r = mysqli_fetch_assoc($result)) {
-                if($r["email"] == $email && $r["password"] == $pass){
-                    if ($r["email"] == "admin@gmail.com") {
-                    	$_SESSION['name_admin'] = $r["name"];
-                    	header ('location: Admin/pages/home.php');
-                    	break;
-                    } else {
-                    	$_SESSION['name'] = $r["name"];
-                        header('location: index.php'); 
-                        break;
-                    }
-                } else {
-                    header('location: login.php'); 
-                    break;
-                }
-            }      
+    	if (!empty($_POST['email']) && !empty($_POST['password'])) {
+	        $email=$_POST['email'];
+	        $pass=md5($_POST['password']);
+	        $sqlLogin = "SELECT * FROM `user`"; 
+	        $result = mysqli_query($conn,$sqlLogin); 
+	        if (mysqli_num_rows($result) > 0) {
+	            while ($r = mysqli_fetch_assoc($result)) {
+	                if($r["email"] == $email && $r["password"] == $pass){
+	                    if ($r["email"] == "admin@gmail.com") {
+	                    	$_SESSION['name_admin'] = $r["name"];
+	                    	header ('location: Admin/pages/home.php');
+	                    	break;
+	                    } else {
+	                    	$_SESSION['name'] = $r["name"];
+	                        header('location: index.php'); 
+	                        break;
+	                    }
+	                } else {
+	                    header('location: login.php'); 
+	                    break;
+	                }
+	            }      
+	        }
+	    } else {
+            echo "Ban can nhap du thong tin";
+            header('location: login.php'); 
         }
     }
     

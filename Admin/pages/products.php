@@ -11,9 +11,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <title>
-        Products
-    </title>
+    <title> Products </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <!-- Nucleo Icons -->
@@ -153,15 +151,15 @@
                                     $image = $_POST['image'];
                                     $price = $_POST['price'];
                                     $description = $_POST['description'];
-                                    $fmg = $_POST['fmg'];
+                                    $mfg = $_POST['mfg'];
                                     $quantity = $_POST['quantity'];
 
                                     if (isset($_GET['id_product'])) {
-                                        $sqlUpdate = "UPDATE `products` SET `product_name`='$name',`id_category`='$category',`image`='$image',`price`='$price',`description`='$description',`date_add`='$dateadd',`quantity`='$quantity' WHERE `id_product`=".$_GET['id_product'];
-                                            mysql_query($conn, $sqlUpdate) or die("Error");
+                                        $sqlUpdate = "UPDATE `products` SET `product_name`='$name',`id_category`='$category',`image`='$image',`price`='$price',`description`='$description',`mfg`='$mfg',`quantity`='$quantity' WHERE `id_product`=".$_GET['id_product'];
+                                            $r = mysqli_query($conn, $sqlUpdate) or die("Error");
                                     } else {
-                                        $sqlInsert = "INSERT INTO `products`(`product_name`, `id_category`, `image`, `price`, `description`, `date_add`, `quantity`) VALUES ('$name','$category','$image','$price','$description','$dateadd','$quantity')";
-                                        mysql_query($conn, $sqlInsert) or die("Error");
+                                        $sqlInsert = "INSERT INTO `products`(`product_name`, `id_category`, `image`, `price`, `description`, `mfg`, `quantity`) VALUES ('$name','$category','$image','$price','$description','$mfg','$quantity')";
+                                        mysqli_query($conn, $sqlInsert) or die("Error");
                                     }
                                 }
 
@@ -185,11 +183,11 @@
                                     <h6 class="mb-0 text-sm"> Category </h6>
                                     <div class="col-md-9 col-sm-9 ">
                                         <select id="heard" class="mb-0" style="padding: 3px;" name="category">
-                                            <option value="net"> Mac </option>
-                                            <option value=""> iPad </option>
-                                            <option value="press"> iPhone</option>
-                                            <option value="net"> Watch </option>
-                                            <option value="mouth"> AirPods </option>
+                                            <option value="Mac"> Mac </option>
+                                            <option value="iPad"> iPad </option>
+                                            <option value="iPhone"> iPhone </option>
+                                            <option value="Watch"> Watch </option>
+                                            <option value="AirPods"> AirPods </option>
                                         </select>
                                     </div>
                                 </div>
@@ -212,9 +210,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group" style="padding-top: 10px;">
-                                    <h6 class="mb-0 text-sm"> FMG </h6>
+                                    <h6 class="mb-0 text-sm"> MFG </h6>
                                     <div class="col-md-9 col-sm-9 ">
-                                        <input class="date-picker mb-0" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)" style="padding: 3px; width: 340px;" name="fmg">
+                                        <input class="date-picker mb-0" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)" style="padding: 3px; width: 340px;" name="mfg">
                                     </div>
                                 </div>
                                 <div class="form-group" style="padding-top: 10px;">

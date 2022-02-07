@@ -98,9 +98,9 @@
                             <span class="d-sm-inline d-none"> 
                                 <?php
                                     if(isset($_SESSION["name_admin"])){
-                                        echo "<a href='http://localhost/NiShop/Nis-Shop/logout.php'> Log Out </a>";
+                                        echo "<a href='http://localhost/NiShop/Nis_Shop/logout.php'> Log Out </a>";
                                     } else {
-                                        echo "<a href='http://localhost/NiShop/Nis-Shop/login.php'> Log In </a>";
+                                        echo "<a href='http://localhost/NiShop/Nis_Shop/login.php'> Log In </a>";
                                     }
                                 ?>  
                             </span>
@@ -165,10 +165,10 @@
                                             <p class="mb-0"> <?php echo $r['address']; ?> </p>
                                         </td>
                                         <td>
-                                            <p class="mb-0"> $<?php echo $r['email']; ?> </p>
+                                            <p class="mb-0"> <?php echo $r['email']; ?> </p>
                                         </td>
                                         <td>
-                                            <p class="mb-0"> $<?php echo $r['phone']; ?> </p>
+                                            <p class="mb-0"> <?php echo $r['phone']; ?> </p>
                                         </td>
                                         <td align="center">
                                             <p class="mb-0 "> <?php echo $r['total_money']; ?> </p>
@@ -178,7 +178,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <a href="delete_order.php?id=<?php echo $r['id_order']; ?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip">
-                                              <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete">delete</i>
+                                                <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete">delete</i>
                                             </a>
                                         </td>
                                     </tr>

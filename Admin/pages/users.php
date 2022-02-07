@@ -99,9 +99,9 @@
                             <span class="d-sm-inline d-none"> 
                                 <?php
                                     if(isset($_SESSION["name_admin"])){
-                                        echo "<a href='http://localhost/NiShop/Nis-Shop/logout.php'> Log Out </a>";
+                                        echo "<a href='http://localhost/NiShop/Nis_Shop/logout.php'> Log Out </a>";
                                     } else {
-                                        echo "<a href='http://localhost/NiShop/Nis-Shop/login.php'> Log In </a>";
+                                        echo "<a href='http://localhost/NiShop/Nis_Shop/login.php'> Log In </a>";
                                     }
                                 ?>  
                             </span>
@@ -166,7 +166,7 @@
                                             <p class="mb-0"> <?php echo $r['password']; ?> </p>
                                         </td>
                                         <td class="align-middle">
-                                            <a class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" href="delele_user.php?id_user=<?php echo $r['id_user']; ?>"> 
+                                            <a class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" href="delete_user.php?id_user=<?php echo $r['id_user']; ?>"> 
                                                 <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete">delete</i>
                                             </a>
                                         </td>

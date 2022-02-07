@@ -3,7 +3,6 @@
     mysqli_query($conn, 'set names utf8');
 
         $sqlDelete = "DELETE FROM user WHERE id_user=".$_GET['id_user'];
-        print_r($sqlDelete);
         mysqli_query($conn,$sqlDelete) or die("Error");
         header('location: users.php');
  ?>

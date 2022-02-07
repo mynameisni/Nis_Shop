@@ -1,52 +1,48 @@
 <?php
     ob_start();
     session_start();
-    try {
-        $conn = new PDO("mysql:host=localhost; dbname=nis_shop",'root','');
-        $conn-> query("set name utf8");
-        $conn-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        // echo "kết nối thành công";
-    } catch (PDOException $e) {
-        echo "Connection failed".$e->getMessage();
-    } 
+    $conn = new mysqli ('localhost','root','','nis_shop') or die("Connection failed!");
+    mysqli_query($conn, 'set names utf8');
+
     if (isset($_POST["id_product"])) {
         $id = $_POST["id_product"];
-        $sql="SELECT * FROM `products` WHERE id_product=".$id; 
-        $dl=$conn-> query($sql); 
-        foreach ($dl as $value) {
-            if(!isset($_SESSION['cart'])){
+        $sqlSelect = "SELECT * FROM `products` WHERE id_product=".$id; 
+        $result = mysqli_query($conn, $sqlSelect); 
+        $row = mysqli_fetch_assoc($result);
+
+        if(!isset($_SESSION['cart'])){
+            $cart[$id] = array(
+                'name' => $row['product_name'],
+                'image' => $row['image'],
+                'price' => $row['price'],
+                'number' => 1
+            );
+        } else {
+            $cart = $_SESSION["cart"];
+            if (array_key_exists($id, $cart)) {
                 $cart[$id] = array(
-                    'name' => $value[1],
-                    'image' => $value[3],
-                    'price' => $value[4],
-                    'number' => 1
+                    'name' => $row['product_name'],
+                    'image' => $row['image'],
+                    'price' => $row['price'],
+                    'number' => (int)$cart[$id]["number"] +1
                 );
             } else {
-                $cart = $_SESSION["cart"];
-                if (array_key_exists($id, $cart)) {
-                    $cart[$id] = array(
-                        'name' => $value[1],
-                        'image' => $value[3],
-                        'price' => $value[4],
-                        'number' => (int)$cart[$id]["number"] +1
-                    );
-                } else {
-                    $cart[$id] = array(
-                        'name' => $value[1],
-                        'image' => $value[3],
-                        'price' => $value[4],
-                        'number' => 1
-                    );
-                }
+                $cart[$id] = array(
+                    'name' => $row['product_name'],
+                    'image' => $row['image'],
+                    'price' => $row['price'],
+                    'number' => 1
+                );
             }
-            $_SESSION["cart"] = $cart;
-            $number = 0;
-            $total = 0;
-            foreach ($cart as $vl) {
-                $number += (int)$vl["number"];
-                $total += (int)$vl["number"]*(int)$vl["price"];
-            }
-            echo $number.'-'.$total;
         }
+
+        $_SESSION["cart"] = $cart;
+        $number = 0;
+        $total = 0;
+        foreach ($cart as $value) {
+            $number += (int)$value["number"];
+            $total += (int)$value["number"]*(int)$value["price"];
+        }
+        echo $number.'-'.$total;
     }
 ?>
