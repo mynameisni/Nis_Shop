@@ -276,7 +276,7 @@
 														</a>
 														<div class="button-head">
 															<div class="product-action">
-																<a data-toggle="modal" data-target="#exampleModal" title="Product View View"><i class=" ti-eye"></i><span> View </span></a>
+																<a href="productDetail.php?id_product=<?php echo $r["id_product"];?>"><i class=" ti-eye"></i><span> View </span></a>
 																<a title="Wishlist" href="#"><i class=" ti-heart "></i><span> Add to Wishlist </span></a>
 															</div>
 															<div class="product-action-2">
@@ -286,7 +286,7 @@
 													</div>
 
 													<div class="product-content">
-														<h3><a data-toggle="modal" data-target="#exampleModal"> <?php echo $r['product_name']; ?> </a></h3>
+														<h3><a href="productDetail.php?id_product=<?php echo $r["id_product"];?>"> <?php echo $r['product_name']; ?> </a></h3>
 														<div class="product-price">
 															<span>$<?php echo $r['price']?></span>
 														</div>

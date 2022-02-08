@@ -313,16 +313,16 @@
 														</a>
 														<div class="button-head">
 															<div class="product-action">
-																<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href=""><i class=" ti-eye"></i><span> View </span></a>
+																<a href="productDetail.php?id_product=<?php echo $r["id_product"];?>"><i class=" ti-eye"></i><span> View </span></a>
 															</div>
 															<div class="product-action-2" onclick="addCart('<?php echo $r["id_product"];?>')">
-																<a title="Add to cart" href=""> Add to cart </a>
+																<a title="Add to cart"> Add to cart </a>
 															</div>
 														</div>
 													</div>
 
 													<div class="product-content">
-														<h3><a data-toggle="modal" data-target="#exampleModal"> <?php echo $r['product_name']; ?> </a></h3>
+														<h3><a href="productDetail.php?id_product=<?php echo $r["id_product"];?>"><?php echo $r['product_name']; ?> </a></h3>
 														<div class="product-price">
 															<span>$<?php echo $r['price']?></span>
 														</div>
@@ -377,7 +377,7 @@
 														</a>
 														<div class="button-head">
 															<div class="product-action">
-																<a data-toggle="modal" data-target="#exampleModal" title="Quick View" ><i class=" ti-eye"></i><span> Quick Shop </span></a>
+																<a href="productDetail.php?id_product=<?php echo $r["id_product"];?>"><i class=" ti-eye"></i><span> View </span></a>
 															</div>
 															<div class="product-action-2" onclick="addCart('<?php echo $r["id_product"];?>')">
 																<a title="Add to cart" href="" > Add to cart </a>
@@ -385,7 +385,7 @@
 														</div>
 													</div>
 													<div class="product-content">
-														<h3><a data-toggle="modal" data-target="#exampleModal"> <?php echo $r['product_name']; ?> </a></h3>
+														<h3><a href="productDetail.php?id_product=<?php echo $r["id_product"];?>"> <?php echo $r['product_name']; ?> </a></h3>
 														<div class="product-price">
 															<span>$<?php echo $r['price']?></span>
 														</div>
@@ -451,57 +451,6 @@
 		</div>
 	</section>
 	<!-- End Shop Services Area -->
-
-	<!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
-                    </div>
-                    <div class="modal-body">
-                    	<div class="container">
-                    		<div class="row">
-                    			<div class="col-lg-5 col-md-5 col-sm-12">
-                    				<div class="modal_tab">
-                    					<div class="tab-content product-details-large">
-                    						<div class="tab-pane fade show active">
-                    							<img class="model-img" src="images/<?php echo $value[3]?>.png" alt="#">
-                    						</div>
-                    					</div>
-                    				</div>
-                    			</div>
-                    			<div class="col-lg-7 col-md-7 col-sm-12">
-                    				<div class="modal_right">
-                    					<div class="modal_title md-10">
-                    						<h2 style="margin-top:100px; font-weight:500; color:#F7941D; display:block; margin-bottom:12px;">
-                    							<?php echo $value[1]; ?> 
-                    						</h2>
-                    					</div>
-                    					<div class="modal_price md-10">
-                    						<h4> $<?php echo $value[4]; ?> </h4>
-                    					</div><br>
-                    					<div class="modal_description md-15">
-                    						<?php echo $value[5]; ?>
-                    					</div><br>
-                    					<div class="see_all">
-                    						<a href="#"> See all feature </a>
-                    					</div>
-                    					<div class="modal_add_to_cart md-15">
-                							<input type="number" min ="0" max="10" value="1" name="" style="width: 4em; border: 1px solid gray; text-align: center;">
-                							<div class="button" style="margin-top:30px;">
-												<a href="https://wpthemesgrid.com/downloads/eshop-ecommerce-html5-template/" target="_blank" class="btn" style="color:#fff;"> Add To Cart </a>
-											</div>
-                    					</div>
-                    				</div>
-                    			</div>
-                    		</div>
-                    	</div>
-                    </div>
-                </div>
-            </div>
-    </div>
-    <!-- Modal end -->
 	
 <!-- Start Footer Area -->
 	<footer class="footer">
